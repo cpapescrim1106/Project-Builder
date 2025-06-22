@@ -97,16 +97,6 @@ This guide outlines the optimal workflow for building applications using AI agen
 
 ---
 
-## 📊 Time Estimates
-
-| App Complexity | Total Time | AI Sessions | Calendar Days |
-|----------------|------------|-------------|---------------|
-| Simple (Personal) | 4-6 hours | 5-7 | 1-2 days |
-| Standard (SaaS) | 8-12 hours | 8-12 | 3-5 days |
-| Complex (Platform) | 15-25 hours | 12-20 | 5-10 days |
-
----
-
 ## 🎯 Success Factors
 
 1. **Clear PRD** = Faster development
