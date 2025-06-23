@@ -50,6 +50,7 @@ This document outlines a systematic approach to planning programming tasks befor
 □ Identify similar patterns already implemented
 □ Find reusable components/utilities
 □ Check for existing libraries/packages
+□ Use context7 to find latest component libraries and documentation
 □ Review relevant documentation
 □ Identify potential technical challenges
 ```
@@ -264,11 +265,12 @@ Session 3:
 
 ### Creating a New UI Component
 1. Review design mockups
-2. Identify reusable elements
-3. Plan component props/API
-4. Consider responsive behavior
-5. Plan accessibility features
-6. Define test scenarios
+2. Check context7 for existing component patterns and best practices
+3. Identify reusable elements
+4. Plan component props/API
+5. Consider responsive behavior
+6. Plan accessibility features
+7. Define test scenarios
 
 ### Database Schema Changes
 1. Analyze current schema
@@ -341,6 +343,7 @@ Session 3:
 - Spikes: Technical investigations
 - Documentation: ADRs, design docs
 - Collaboration: Pair planning, team reviews
+- Component Libraries: Use context7 to get latest component documentation and examples
 
 ### Testing Considerations
 

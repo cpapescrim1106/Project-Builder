@@ -33,7 +33,9 @@ This template guides AI agents to help users create comprehensive PRDs through a
 ### Available Tools & Services
 - **MCP Servers**: Model Context Protocol servers for enhanced capabilities
 - **Puppeteer**: Browser automation for testing and scraping
-- **Context7**: Development context management
+- **Context7**: Access to latest component libraries, documentation, and best practices
+  - Use `mcp__context7__resolve-library-id` to find libraries
+  - Use `mcp__context7__get-library-docs` to get up-to-date documentation
 
 ### Key Requirements
 - All templates must be Docker-compatible
@@ -145,6 +147,7 @@ After answering 2-3 quick questions, generate:
 - **Database**: [PostgreSQL/SQLite based on needs] with Prisma ORM (AI-friendly schemas)
 - **Auth**: [NextAuth/Clerk based on complexity] (pre-built AI patterns)
 - **Styling**: Tailwind CSS + shadcn/ui (component-based for AI)
+  - Use context7 to get latest shadcn/ui component examples
 - **Deployment**: CapRover-ready with included Dockerfile
 - **Code Structure**: Modular components, clear file naming, single-responsibility functions
 
@@ -199,6 +202,12 @@ Content -> [Relationship] -> [Other entities]
 - [Awesome SaaS Boilerplates](https://github.com/smirnov-am/awesome-saas-boilerplates)
 - [T3 Stack Examples](https://create.t3.gg/en/examples)
 
+**Component Libraries via Context7:**
+- Use context7 to access latest documentation for:
+  - React component libraries (shadcn/ui, Material UI, Ant Design)
+  - Vue components (Vuetify, Element Plus)
+  - Framework-specific components and patterns
+
 ### Success Metrics
 - **Technical**: Page load < 2s, 99.9% uptime
 - **User**: [Specific user action] completion rate > 80%
@@ -216,7 +225,11 @@ Content -> [Relationship] -> [Other entities]
 - **MCP Servers**: AI can suggest MCP integration points for enhanced functionality
 - **Puppeteer**: AI includes E2E tests using Puppeteer when appropriate
 - **Docker**: AI always creates CapRover-compatible Dockerfiles
-- **Context7**: AI maintains clear context between sessions
+- **Context7**: AI uses context7 to:
+  - Get latest component documentation and examples
+  - Find best practices for specific libraries
+  - Access up-to-date API references
+  - Ensure modern patterns are used
 
 #### AI-Friendly Architecture
 - **Component Isolation**: Each feature in its own file/folder
@@ -235,6 +248,10 @@ Content -> [Relationship] -> [Other entities]
 - Share error messages immediately for quick fixes
 - Ask AI to explain architectural decisions
 - Request AI to create README updates as it builds
+- Encourage AI to use context7 for:
+  - Finding the right component library for your needs
+  - Getting accurate, up-to-date code examples
+  - Checking best practices before implementation
 
 ---
 
