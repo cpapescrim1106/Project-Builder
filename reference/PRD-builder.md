@@ -31,11 +31,26 @@ This template guides AI agents to help users create comprehensive PRDs through a
 - **One-click deployment**: Apps should be CapRover-ready
 
 ### Available Tools & Services
-- **MCP Servers**: Model Context Protocol servers for enhanced capabilities
-- **Puppeteer**: Browser automation for testing and scraping
-- **Context7**: Access to latest component libraries, documentation, and best practices
+
+#### MCP Servers for Planning & Building:
+- **Context7**: Deep TypeScript-aware reasoning over large file sets
   - Use `mcp__context7__resolve-library-id` to find libraries
   - Use `mcp__context7__get-library-docs` to get up-to-date documentation
+  - Best for: Big refactors, generating new pages/routes, scaffolding
+- **DeepDev**: Cross-layer (DB ⇆ API ⇆ UI) "full-stack brain"
+  - Best for: Data model design, API contracts, ORM migrations
+- **SequentialThinking**: Forces step-by-step thinking and tool selection
+  - Best for: Feature decomposition, task sizing, roadmap planning
+- **Puppeteer**: Complete browser automation testing suite (NOT just screenshots!)
+  - **Navigation & Load Testing**: `puppeteer_navigate` - test page loads, redirects, performance
+  - **User Interactions**: `puppeteer_click`, `puppeteer_fill`, `puppeteer_select`, `puppeteer_hover`
+  - **Validation & Verification**: `puppeteer_evaluate` - execute JavaScript to verify DOM state, check errors, measure performance
+  - **Visual Testing**: `puppeteer_screenshot` - capture states for regression testing
+  - Best for: Complete E2E validation, user journey testing, performance monitoring, error detection
+- **SQLite**: Local file-based database wrapper
+  - Best for: Schema prototyping, seed scripts, offline testing
+- **Fetch**: Simple HTTP client + response inspector
+  - Best for: API testing, mocking external services, contract validation
 
 ### Key Requirements
 - All templates must be Docker-compatible
@@ -51,7 +66,7 @@ This template guides AI agents to help users create comprehensive PRDs through a
 
 ### Step 1: Analyze the User's Idea
 
-First, evaluate how detailed the user's idea is:
+First, use `sequentialthinking` to decompose the user's idea and evaluate how detailed it is:
 
 **If the idea is comprehensive** (includes target users, features, scale, and technical preferences):
 - Skip the questions entirely
@@ -103,6 +118,19 @@ Based on either:
 - The detailed idea provided (no questions asked)
 - The answers to your questions (for vague ideas)
 - A combination of provided details + question answers
+
+Use MCP servers to enhance PRD generation:
+1. **sequentialthinking**: Create step-by-step implementation plan
+2. **deepdev**: Design data models and API contracts with full-stack awareness
+3. **context7**: Find relevant component libraries and patterns
+4. **sqlite**: Suggest schema prototypes for quick iteration
+5. **fetch**: Define API integration points and mock endpoints
+6. **puppeteer**: Design comprehensive validation strategy:
+   - User interaction test flows (login, data entry, navigation)
+   - DOM verification scripts (check loaded data, error states)
+   - Performance benchmarks (page load, API response times)
+   - Error scenario testing (invalid inputs, network failures)
+   - Accessibility validation (keyboard nav, screen reader support)
 
 Proceed to generate the complete PRD and template recommendations.
 
@@ -178,6 +206,11 @@ User -> [Relationship] -> Content
 Content -> [Relationship] -> [Other entities]
 ```
 
+**MCP-Enhanced Data Design:**
+- Use `deepdev` to design schemas with full-stack awareness
+- Use `sqlite` to prototype and test schemas locally
+- Consider API-first design with `fetch` for external integrations
+
 ### 🎯 Template Categories (All CapRover-Ready)
 
 #### Minimal Starters (5-7 AI sessions)
@@ -221,15 +254,50 @@ Content -> [Relationship] -> [Other entities]
 - Work on one feature at a time for best results
 - Test immediately after each component is built
 
-#### Tech Stack Integration
-- **MCP Servers**: AI can suggest MCP integration points for enhanced functionality
-- **Puppeteer**: AI includes E2E tests using Puppeteer when appropriate
-- **Docker**: AI always creates CapRover-compatible Dockerfiles
+#### Tech Stack Integration with MCP Servers
+- **SequentialThinking**: Use for breaking down complex features into ordered tasks
+- **DeepDev**: Design cross-layer architecture (DB ⇆ API ⇆ UI)
+  - Create Prisma schemas with full-stack awareness
+  - Design tRPC/GraphQL resolvers with data flow understanding
 - **Context7**: AI uses context7 to:
   - Get latest component documentation and examples
   - Find best practices for specific libraries
   - Access up-to-date API references
-  - Ensure modern patterns are used
+  - Scaffold initial project structure
+- **SQLite**: Prototype data models before committing to production DB
+  - Test migrations locally
+  - Create seed data for development
+- **Fetch**: Mock and test all external API integrations
+  - Define contract tests early
+  - Create fallback responses for offline development
+- **Puppeteer**: AI creates comprehensive frontend validation using ALL Puppeteer capabilities:
+  - **User Journey Testing**: Chain navigate → fill → click → evaluate for complete flows
+  - **Interaction Validation**: Test every clickable element, form field, dropdown
+  - **State Verification**: Use `puppeteer_evaluate` to check DOM changes, data loading
+  - **Performance Testing**: Measure load times, render performance, memory usage
+  - **Error Handling**: Trigger and validate error states, console errors
+  - **Visual Regression**: Screenshot critical states for comparison
+  - **Example Test Flow**:
+    ```javascript
+    // Navigate and verify load
+    puppeteer_navigate({ url: "app.com" })
+    puppeteer_evaluate({ script: "document.readyState === 'complete'" })
+    
+    // Test user interaction
+    puppeteer_fill({ selector: "#search", value: "test query" })
+    puppeteer_click({ selector: "#search-btn" })
+    
+    // Verify results
+    puppeteer_evaluate({ 
+      script: "document.querySelectorAll('.result').length > 0" 
+    })
+    
+    // Check performance
+    puppeteer_evaluate({ 
+      script: "performance.getEntriesByType('navigation')[0].loadEventEnd" 
+    })
+    ```
+- **Docker**: AI always creates CapRover-compatible Dockerfiles
 
 #### AI-Friendly Architecture
 - **Component Isolation**: Each feature in its own file/folder
@@ -356,7 +424,21 @@ Quick answer: A, B, or C?"
 
 **User**: "I want to build a community recipe sharing platform where users can create accounts, share their recipes publicly, follow other cooks, create collections, plan weekly meals, and generate shopping lists. It should have social features like comments and ratings, work great on mobile for kitchen use, and eventually support premium features like nutrition tracking. Target audience is home cooks who want to discover and organize recipes."
 
-**AI**: "Based on your detailed description, I understand you want a full-featured community recipe platform with social features, meal planning, and future premium capabilities. Perfect! Let me generate your PRD and recommend the best templates..."
+**AI**: "Based on your detailed description, I understand you want a full-featured community recipe platform with social features, meal planning, and future premium capabilities. Perfect! Let me use our MCP servers to create a comprehensive PRD:
+
+1. Using `sequentialthinking` to break down your requirements into ordered implementation tasks...
+2. Using `deepdev` to design the data model for recipes, users, collections, and meal plans...
+3. Using `context7` to find the best UI component libraries for recipe cards and social features...
+4. Using `sqlite` to prototype the schema and create sample data...
+5. Using `fetch` to plan the integration with nutrition APIs...
+6. Using `puppeteer` to create comprehensive validation tests:
+   - Recipe creation flow: navigate → fill form → submit → verify
+   - Search functionality: enter query → click → check results
+   - Social interactions: click like → add comment → verify updates
+   - Performance metrics: measure page loads and API response times
+   - Error handling: test invalid inputs and network failures...
+
+Let me generate your PRD and recommend the best templates..."
 
 **AI**: "Perfect! Based on your choices (Community Platform + Full Features), here are your best templates:
 
@@ -423,4 +505,78 @@ caprover deploy
 - Include clear file organization for AI navigation
 - Always include CapRover deployment configuration
 - Consider MCP server integration opportunities
-- Add Puppeteer tests for critical user flows
+- **CRITICAL: Use Puppeteer for comprehensive validation, not just screenshots:**
+  
+### 🧪 Puppeteer Testing Workflow for Every Feature
+
+**Remember**: Every frontend feature MUST be validated with Puppeteer's full capabilities:
+
+#### 1. **Page Load & Navigation Testing**
+```javascript
+puppeteer_navigate({ url: "your-app.com/feature" })
+puppeteer_evaluate({ script: "document.readyState === 'complete'" })
+```
+
+#### 2. **User Interaction Testing**
+```javascript
+// Test all interactive elements
+puppeteer_click({ selector: ".button" })
+puppeteer_fill({ selector: "#input", value: "test" })
+puppeteer_select({ selector: "#dropdown", value: "option1" })
+puppeteer_hover({ selector: ".tooltip-trigger" })
+```
+
+#### 3. **State Verification**
+```javascript
+// Verify DOM changes and data loading
+puppeteer_evaluate({ 
+  script: "document.querySelector('.result').textContent" 
+})
+puppeteer_evaluate({ 
+  script: "document.querySelectorAll('.item').length" 
+})
+```
+
+#### 4. **Error Validation**
+```javascript
+// Test error scenarios
+puppeteer_fill({ selector: "#email", value: "invalid-email" })
+puppeteer_click({ selector: "#submit" })
+puppeteer_evaluate({ 
+  script: "document.querySelector('.error-message')?.textContent" 
+})
+```
+
+#### 5. **Performance Monitoring**
+```javascript
+puppeteer_evaluate({
+  script: `
+    const metrics = performance.getEntriesByType('navigation')[0];
+    return {
+      pageLoad: metrics.loadEventEnd - metrics.fetchStart,
+      domReady: metrics.domContentLoadedEventEnd,
+      firstPaint: performance.getEntriesByName('first-paint')[0]?.startTime
+    }
+  `
+})
+```
+
+#### 6. **Visual Documentation**
+```javascript
+// Capture states for regression testing
+puppeteer_screenshot({ name: "feature-before", selector: ".container" })
+// ... perform actions ...
+puppeteer_screenshot({ name: "feature-after", selector: ".container" })
+```
+
+### Testing Checklist for AI Implementation:
+- [ ] Navigate to every new route/page
+- [ ] Click every button and verify result
+- [ ] Fill every form field with valid/invalid data
+- [ ] Test all dropdowns and selections
+- [ ] Verify all hover states and tooltips
+- [ ] Check loading states and spinners
+- [ ] Validate error messages and edge cases
+- [ ] Measure performance metrics
+- [ ] Test responsive behavior at different viewports
+- [ ] Verify accessibility (keyboard nav, ARIA)

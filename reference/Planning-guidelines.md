@@ -36,6 +36,7 @@ This document outlines a systematic approach to planning programming tasks befor
 ### Step 1: Requirements Analysis
 ```
 □ Read the full requirement/ticket/PRD
+□ Use sequentialthinking to decompose complex requirements into ordered tasks
 □ Identify core functionality needed
 □ List all user interactions
 □ Note technical constraints
@@ -46,11 +47,12 @@ This document outlines a systematic approach to planning programming tasks befor
 
 ### Step 2: Technical Discovery
 ```
-□ Explore existing codebase structure
+□ Use context7 for deep TypeScript-aware analysis of existing codebase structure
 □ Identify similar patterns already implemented
 □ Find reusable components/utilities
 □ Check for existing libraries/packages
 □ Use context7 to find latest component libraries and documentation
+□ Use deepdev to understand cross-layer dependencies (DB ⇆ API ⇆ UI)
 □ Review relevant documentation
 □ Identify potential technical challenges
 ```
@@ -59,8 +61,9 @@ This document outlines a systematic approach to planning programming tasks befor
 ### Step 3: Solution Design
 ```
 □ Choose appropriate architecture pattern
-□ Design data models/structures
-□ Plan API endpoints (if applicable)
+□ Use deepdev to design data models/structures with full-stack context
+□ Use sqlite for rapid schema prototyping and iteration
+□ Plan API endpoints (if applicable) - use fetch to mock/test early
 □ Sketch UI components (if applicable)
 □ Define interfaces between components
 □ Consider error handling strategies
@@ -69,12 +72,16 @@ This document outlines a systematic approach to planning programming tasks befor
 
 ### Step 4: Task Breakdown
 ```
-□ Create ordered list of implementation tasks
+□ Use sequentialthinking to create ordered list of implementation tasks
 □ CRITICAL: Ensure each task is small enough for one AI session
 □ Plan checkpoint commits after each 2-3 tasks
 □ Estimate time for each task
 □ Identify dependencies between tasks
-□ Define testable completion criteria
+□ Define testable completion criteria with comprehensive puppeteer validation:
+  - User interaction tests (click, fill, select, hover)
+  - DOM state verification (puppeteer_evaluate)
+  - Performance benchmarks (load times, render metrics)
+  - Error scenario coverage
 □ Note which tasks can be parallelized
 □ Mark natural break points for context resets
 ```
@@ -100,16 +107,16 @@ This document outlines a systematic approach to planning programming tasks befor
 - **Success Criteria**: [How we measure success]
 
 ### Technical Approach
-- **Architecture**: [Pattern/approach chosen]
+- **Architecture**: [Pattern/approach chosen] - use context7 to scaffold initial structure
 - **Key Components**:
   1. [Component 1]: [Purpose]
   2. [Component 2]: [Purpose]
   3. [Component 3]: [Purpose]
 
 ### Data Requirements
-- **Models**: [List data models needed]
-- **Storage**: [Database/storage approach]
-- **APIs**: [External APIs needed]
+- **Models**: [List data models needed] - use deepdev for schema design
+- **Storage**: [Database/storage approach] - prototype with sqlite first
+- **APIs**: [External APIs needed] - mock with fetch for early testing
 
 ### Implementation Tasks (AI-Optimized)
 **Track Progress**: Check off tasks as completed ([ ] → [x])
@@ -131,7 +138,14 @@ Session 3:
 
 ### Testing Strategy
 - **Unit Tests**: [What to test]
-- **Integration Tests**: [Key flows]
+- **Integration Tests**: [Key flows] - use fetch to test API contracts
+- **E2E Tests**: [User journeys] - CRITICAL: Use puppeteer for complete validation:
+  - Navigation flows (puppeteer_navigate + puppeteer_click)
+  - Form submissions (puppeteer_fill + puppeteer_select)
+  - Interactive elements (puppeteer_hover + puppeteer_evaluate)
+  - Performance metrics (puppeteer_evaluate with performance API)
+  - Error handling (trigger errors + puppeteer_evaluate)
+  - Visual regression (puppeteer_screenshot before/after)
 - **Edge Cases**: [Special scenarios]
 - **Cleanup**: Delete any temporary test files after verification
 
@@ -256,12 +270,13 @@ Session 3:
 ## 🚀 Quick Planning for Common Scenarios
 
 ### Adding a New API Endpoint
-1. Define request/response schema
+1. Use deepdev to define request/response schema with full-stack awareness
 2. Check authentication requirements
 3. Plan validation rules
 4. Consider rate limiting
 5. Design error responses
-6. Plan integration tests
+6. Use fetch to create mock endpoints and test contracts early
+7. Plan integration tests with puppeteer for E2E coverage
 
 ### Creating a New UI Component
 1. Review design mockups
@@ -273,20 +288,23 @@ Session 3:
 7. Define test scenarios
 
 ### Database Schema Changes
-1. Analyze current schema
-2. Plan migration strategy
-3. Consider backwards compatibility
-4. Plan data migration
-5. Define rollback procedure
-6. Plan performance testing
+1. Use deepdev to analyze current schema and cross-layer impacts
+2. Use sqlite to prototype and test new schema locally first
+3. Plan migration strategy
+4. Consider backwards compatibility
+5. Plan data migration
+6. Define rollback procedure
+7. Plan performance testing
 
 ### Third-party Integration
 1. Review API documentation
-2. Plan authentication approach
-3. Design error handling
-4. Plan retry strategies
-5. Consider rate limits
-6. Design fallback behavior
+2. Use fetch to test API endpoints and understand response formats
+3. Plan authentication approach
+4. Design error handling
+5. Plan retry strategies
+6. Consider rate limits
+7. Design fallback behavior
+8. Create mock endpoints with fetch for development/testing
 
 ## 💡 Best Practices
 
@@ -345,25 +363,166 @@ Session 3:
 - Collaboration: Pair planning, team reviews
 - Component Libraries: Use context7 to get latest component documentation and examples
 
+### MCP Server Usage Guidelines:
+
+#### Planning Phase MCP Server Matrix:
+| Phase | Primary MCPs | Purpose |
+|-------|--------------|---------|
+| **Ideation/Decomposition** | `sequentialthinking` | Break down fuzzy requirements into ordered checklist |
+| **Architecture & Data Design** | `deepdev` → `context7` | Design data models with full-stack awareness, scaffold structure |
+| **Prototype & Scaffolding** | `context7` + `sqlite` + `fetch` | Generate code stubs, test schemas, mock APIs |
+| **Testing & CI Strategy** | `puppeteer` + `fetch` | Plan E2E tests, define API contracts |
+
+#### Daily Use Cases:
+- **context7**: Big refactors, generating new pages/routes, code reviews
+- **deepdev**: ORM migrations, tRPC/GraphQL handlers, data-flow debugging
+- **sequentialthinking**: Complex "how do I...?" queries, feature decomposition
+- **puppeteer**: Complete frontend validation suite:
+  - User interaction testing (click, fill, select, hover)
+  - DOM state verification (evaluate JavaScript)
+  - Performance monitoring (load times, metrics)
+  - Error scenario validation
+  - Console log monitoring
+  - Visual regression testing
+  - Accessibility validation
+- **sqlite**: Seed scripts, quick data fixtures, schema prototyping
+- **fetch**: REST endpoint testing, mocking 3rd-party APIs, contract definition
+
 ### Testing Considerations
 
 **IMPORTANT**: Clean up any test files created during testing once they're no longer needed.
 
-#### Standard Testing with Puppeteer MCP
-For UI and end-to-end testing, use Puppeteer MCP as the standard approach:
-- Navigate to pages and take screenshots
-- Click elements and fill forms
-- Execute JavaScript in browser context
-- Verify user flows work correctly
+#### Comprehensive Testing with Puppeteer MCP
 
-Example workflow:
+**CRITICAL**: Puppeteer MCP is not just for screenshots - it's your complete browser automation testing suite for validating ALL frontend functionality.
+
+##### Core Puppeteer MCP Commands for Testing:
+
+1. **puppeteer_navigate** - Navigate to URLs and test page loads
+   - Test different environments (staging, production)
+   - Verify redirects and URL changes
+   - Test page load performance
+
+2. **puppeteer_click** - Simulate user clicks for interaction testing
+   - Button functionality validation
+   - Navigation flow testing
+   - Modal/popup triggers
+   - Interactive element verification
+
+3. **puppeteer_fill** - Test form inputs and data entry
+   - Form validation testing
+   - Input field behavior
+   - Search functionality
+   - Login/authentication flows
+
+4. **puppeteer_select** - Test dropdown menus
+   - Option filtering
+   - Dynamic content loading
+   - Form dependencies
+
+5. **puppeteer_hover** - Test hover states
+   - Tooltip verification
+   - Hover menu functionality
+   - CSS transitions
+   - Interactive UI elements
+
+6. **puppeteer_evaluate** - Execute JavaScript for deep validation
+   ```javascript
+   // Verify DOM content
+   puppeteer_evaluate({ script: "document.querySelector('.user-name').textContent" })
+   
+   // Check console errors
+   puppeteer_evaluate({ script: "window.errors || []" })
+   
+   // Measure performance
+   puppeteer_evaluate({ 
+     script: "performance.getEntriesByType('navigation')[0].loadEventEnd" 
+   })
+   ```
+
+7. **puppeteer_screenshot** - Visual validation and regression testing
+   - Before/after comparisons
+   - Error state documentation
+   - Responsive design verification
+   - UI component validation
+
+##### Complete E2E Testing Workflow Example:
+
+```javascript
+// 1. Test Page Load
+puppeteer_navigate({ url: "https://app.example.com" })
+
+// 2. Verify Initial State
+puppeteer_evaluate({ 
+  script: "document.readyState === 'complete'" 
+})
+
+// 3. Test User Login Flow
+puppeteer_fill({ selector: "#email", value: "test@example.com" })
+puppeteer_fill({ selector: "#password", value: "password123" })
+puppeteer_click({ selector: "#login-button" })
+
+// 4. Validate Login Success
+puppeteer_evaluate({ 
+  script: "window.location.pathname === '/dashboard'" 
+})
+
+// 5. Test Interactive Features
+puppeteer_hover({ selector: ".user-menu" })
+puppeteer_click({ selector: ".dropdown-item" })
+
+// 6. Verify Data Loading
+puppeteer_evaluate({ 
+  script: "document.querySelectorAll('.data-row').length > 0" 
+})
+
+// 7. Test Error Handling
+puppeteer_click({ selector: ".invalid-action" })
+puppeteer_evaluate({ 
+  script: "document.querySelector('.error-message')?.textContent" 
+})
+
+// 8. Performance Validation
+puppeteer_evaluate({
+  script: `
+    const metrics = performance.getEntriesByType('navigation')[0];
+    return {
+      pageLoadTime: metrics.loadEventEnd - metrics.fetchStart,
+      domReady: metrics.domContentLoadedEventEnd
+    }
+  `
+})
+
+// 9. Visual Documentation
+puppeteer_screenshot({ name: "test-complete", selector: "body" })
 ```
-1. Navigate to your app
-2. Screenshot the initial state
-3. Click buttons/fill forms
-4. Verify expected results
-5. Screenshot final state
-```
+
+##### Testing Best Practices:
+
+1. **Always validate functionality, not just visuals**
+   - Use `puppeteer_evaluate` to check DOM state
+   - Verify JavaScript execution and console errors
+   - Test API responses and data loading
+
+2. **Test user journeys end-to-end**
+   - Chain multiple actions to simulate real workflows
+   - Test error paths and edge cases
+   - Validate state persistence across pages
+
+3. **Performance testing is crucial**
+   - Measure page load times
+   - Check for memory leaks
+   - Monitor console errors and warnings
+
+4. **Responsive testing**
+   - Test different viewport sizes
+   - Validate mobile interactions
+   - Check touch events and gestures
+
+5. **Accessibility validation**
+   - Test keyboard navigation
+   - Verify ARIA attributes
+   - Check focus management
 
 #### Isolated Environment Testing
 When planning tests, especially for AI-generated code, consider using Docker for isolated testing environments if you need to:
