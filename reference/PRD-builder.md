@@ -37,8 +37,6 @@ This template guides AI agents to help users create comprehensive PRDs through a
   - Use `mcp__context7__resolve-library-id` to find libraries
   - Use `mcp__context7__get-library-docs` to get up-to-date documentation
   - Best for: Big refactors, generating new pages/routes, scaffolding
-- **DeepDev**: Cross-layer (DB ⇆ API ⇆ UI) "full-stack brain"
-  - Best for: Data model design, API contracts, ORM migrations
 - **SequentialThinking**: Forces step-by-step thinking and tool selection
   - Best for: Feature decomposition, task sizing, roadmap planning
 - **Puppeteer**: Complete browser automation testing suite (NOT just screenshots!)
@@ -121,11 +119,10 @@ Based on either:
 
 Use MCP servers to enhance PRD generation:
 1. **sequentialthinking**: Create step-by-step implementation plan
-2. **deepdev**: Design data models and API contracts with full-stack awareness
-3. **context7**: Find relevant component libraries and patterns
-4. **sqlite**: Suggest schema prototypes for quick iteration
-5. **fetch**: Define API integration points and mock endpoints
-6. **puppeteer**: Design comprehensive validation strategy:
+2. **context7**: Find relevant component libraries and patterns
+3. **sqlite**: Suggest schema prototypes for quick iteration
+4. **fetch**: Define API integration points and mock endpoints
+5. **puppeteer**: Design comprehensive validation strategy:
    - User interaction test flows (login, data entry, navigation)
    - DOM verification scripts (check loaded data, error states)
    - Performance benchmarks (page load, API response times)
@@ -207,7 +204,6 @@ Content -> [Relationship] -> [Other entities]
 ```
 
 **MCP-Enhanced Data Design:**
-- Use `deepdev` to design schemas with full-stack awareness
 - Use `sqlite` to prototype and test schemas locally
 - Consider API-first design with `fetch` for external integrations
 
@@ -256,9 +252,6 @@ Content -> [Relationship] -> [Other entities]
 
 #### Tech Stack Integration with MCP Servers
 - **SequentialThinking**: Use for breaking down complex features into ordered tasks
-- **DeepDev**: Design cross-layer architecture (DB ⇆ API ⇆ UI)
-  - Create Prisma schemas with full-stack awareness
-  - Design tRPC/GraphQL resolvers with data flow understanding
 - **Context7**: AI uses context7 to:
   - Get latest component documentation and examples
   - Find best practices for specific libraries
@@ -427,11 +420,10 @@ Quick answer: A, B, or C?"
 **AI**: "Based on your detailed description, I understand you want a full-featured community recipe platform with social features, meal planning, and future premium capabilities. Perfect! Let me use our MCP servers to create a comprehensive PRD:
 
 1. Using `sequentialthinking` to break down your requirements into ordered implementation tasks...
-2. Using `deepdev` to design the data model for recipes, users, collections, and meal plans...
-3. Using `context7` to find the best UI component libraries for recipe cards and social features...
-4. Using `sqlite` to prototype the schema and create sample data...
-5. Using `fetch` to plan the integration with nutrition APIs...
-6. Using `puppeteer` to create comprehensive validation tests:
+2. Using `context7` to find the best UI component libraries for recipe cards and social features...
+3. Using `sqlite` to prototype the schema and create sample data...
+4. Using `fetch` to plan the integration with nutrition APIs...
+5. Using `puppeteer` to create comprehensive validation tests:
    - Recipe creation flow: navigate → fill form → submit → verify
    - Search functionality: enter query → click → check results
    - Social interactions: click like → add comment → verify updates

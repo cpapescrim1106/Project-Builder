@@ -1,15 +1,15 @@
-# Programming Planning Guidelines
+# CLI Programming Agent Planning Guidelines
 
-This document outlines a systematic approach to planning programming tasks before implementation, ensuring thorough preparation and efficient execution.
+This document provides systematic planning strategies for CLI programming agents, optimized for efficient task decomposition, parallel execution, and intelligent tool usage. Focus on actionable commands and measurable outcomes.
 
 ## 🎯 Planning Principles
 
-### 1. Optimize for AI Context Windows (HIGHEST PRIORITY)
-- **Chunk all work into small, independent steps** that fit within AI memory limits
-- Each step should be completable in a single AI session
-- Plan frequent checkpoints to save progress
-- Avoid loading multiple large files simultaneously
-- Structure code changes to minimize context needed
+### 1. Optimize for CLI Agent Efficiency (HIGHEST PRIORITY)
+- **Execute tasks in parallel when possible** - use Task tool for concurrent operations
+- **Chunk work into independent, measurable steps** that fit within context limits
+- **Plan frequent commits** - run `git add . && git commit -m "checkpoint: [description]"` after 2-3 completed tasks
+- **Use Task tool for complex searches** - delegate file discovery, pattern matching, and codebase analysis
+- **Batch CLI commands** - combine related operations: `npm run lint && npm run typecheck && npm test`
 
 ### 2. Understand Before You Code
 - Read and comprehend requirements fully
@@ -33,125 +33,484 @@ This document outlines a systematic approach to planning programming tasks befor
 
 **IMPORTANT**: Check off each item (□ → ✓) as you complete it to track progress and ensure nothing is missed.
 
-### Step 1: Requirements Analysis
-```
-□ Read the full requirement/ticket/PRD
-□ Use sequentialthinking to decompose complex requirements into ordered tasks
-□ Identify core functionality needed
-□ List all user interactions
-□ Note technical constraints
-□ Identify dependencies on other systems
-□ List questions that need clarification
-```
-✓ Check off each item as completed
+### Step 1: Requirements Analysis & Initial Discovery
+**CLI Actions:**
+```bash
+# Parallel file discovery (use Task tool for complex searches)
+Task: "Search for similar features in codebase"
+Task: "Find existing API patterns and endpoints" 
+Task: "Identify relevant configuration files"
 
-### Step 2: Technical Discovery
-```
-□ Use context7 for deep TypeScript-aware analysis of existing codebase structure
-□ Identify similar patterns already implemented
-□ Find reusable components/utilities
-□ Check for existing libraries/packages
-□ Use context7 to find latest component libraries and documentation
-□ Use deepdev to understand cross-layer dependencies (DB ⇆ API ⇆ UI)
-□ Review relevant documentation
-□ Identify potential technical challenges
-```
-✓ Check off each item as completed
-
-### Step 3: Solution Design
-```
-□ Choose appropriate architecture pattern
-□ Use deepdev to design data models/structures with full-stack context
-□ Use sqlite for rapid schema prototyping and iteration
-□ Plan API endpoints (if applicable) - use fetch to mock/test early
-□ Sketch UI components (if applicable)
-□ Define interfaces between components
-□ Consider error handling strategies
-□ Plan for edge cases
+# Quick project structure analysis
+find . -name "*.json" -o -name "*.yml" -o -name "*.config.*" | head -20
+ls -la src/ components/ pages/ 2>/dev/null | head -20
 ```
 
-### Step 4: Task Breakdown
-```
-□ Use sequentialthinking to create ordered list of implementation tasks
-□ CRITICAL: Ensure each task is small enough for one AI session
-□ Plan checkpoint commits after each 2-3 tasks
-□ Estimate time for each task
-□ Identify dependencies between tasks
-□ Define testable completion criteria with comprehensive puppeteer validation:
-  - User interaction tests (click, fill, select, hover)
-  - DOM state verification (puppeteer_evaluate)
-  - Performance benchmarks (load times, render metrics)
-  - Error scenario coverage
-□ Note which tasks can be parallelized
-□ Mark natural break points for context resets
+**MCP Commands:**
+```javascript
+// Break down complex requirements
+mcp__sequential-thinking__sequentialthinking({
+  thought: "Analyze user requirement and decompose into ordered, testable tasks",
+  totalThoughts: 5
+})
+
+// Discover existing patterns
+mcp__context7__resolve-library-id({ libraryName: "[relevant framework]" })
 ```
 
-### Step 5: Risk Assessment
+**Checklist:**
 ```
-□ Identify technical risks
-□ Consider performance implications
-□ Review security concerns
-□ Plan mitigation strategies
-□ Define fallback approaches
+□ Run parallel discovery tasks using Task tool
+□ Use sequentialthinking to decompose complex requirements
+□ Execute `git log --oneline --grep="[similar feature]" | head -10` to find related commits
+□ Run `grep -r "[key terms]" src/ --include="*.js" --include="*.ts" | head -20`
+□ Identify core functionality and user interactions
+□ Document technical constraints and dependencies
+□ List clarification questions
 ```
 
-## 🗂️ Planning Templates
+### Step 2: Technical Discovery & Codebase Analysis
+**Parallel CLI Discovery (use Task tool for efficiency):**
+```bash
+# Task 1: Package analysis
+Task: "Analyze package.json dependencies and scripts"
+# Command: cat package.json | jq '.dependencies, .devDependencies, .scripts'
 
-### Feature Planning Template
+# Task 2: Component discovery  
+Task: "Find all components and their patterns"
+# Command: find src/ -name "*.tsx" -o -name "*.jsx" | xargs grep -l "export.*component\|export default" | head -20
+
+# Task 3: API endpoint discovery
+Task: "Locate API routes and endpoint patterns"
+# Command: grep -r "app\.(get\|post\|put\|delete)\|router\|endpoint" --include="*.js" --include="*.ts" src/ api/ | head -15
+```
+
+**MCP Deep Analysis:**
+```javascript
+// TypeScript-aware codebase analysis
+mcp__context7__resolve-library-id({ libraryName: "[current framework]" })
+mcp__context7__get-library-docs({ 
+  context7CompatibleLibraryID: "/[resolved-id]",
+  topic: "component patterns",
+  tokens: 5000
+})
+
+// IDE diagnostics for current state
+mcp__ide__getDiagnostics()
+```
+
+**CLI Validation Commands:**
+```bash
+# Check project health in parallel
+npm run lint &
+npm run typecheck &
+npm run test:quick &
+wait  # Wait for parallel commands to complete
+
+# Analyze bundle and dependencies
+npx depcheck  # Find unused dependencies
+npx bundle-analyzer --no-open  # Check bundle size
+```
+
+**Checklist:**
+```
+□ Launch parallel discovery tasks using Task tool
+□ Use context7 for framework-specific analysis
+□ Run IDE diagnostics to identify existing issues
+□ Execute health check commands in parallel
+□ Identify reusable patterns and components
+□ Document technical challenges and constraints
+```
+
+### Step 3: Solution Design & Rapid Prototyping
+**Architecture Commands:**
+```bash
+# Create solution branch for experimentation
+git checkout -b feature/[solution-name]
+git push -u origin feature/[solution-name]
+
+# Set up rapid prototyping environment
+mkdir -p prototypes/[feature-name]/{schemas,mocks,components}
+```
+
+**MCP Prototyping Workflow:**
+```javascript
+// Rapid schema design and testing
+mcp__sqlite__create_table({
+  query: "CREATE TABLE [entity] (id INTEGER PRIMARY KEY, ...)"
+})
+mcp__sqlite__write_query({
+  query: "INSERT INTO [entity] VALUES (...)"
+})
+
+// API contract definition and mocking
+mcp__fetch__fetch({
+  url: "https://jsonplaceholder.typicode.com/posts",  // Mock similar API
+  raw: false
+})
+
+// Component scaffolding
+mcp__context7__resolve-library-id({ libraryName: "[component library]" })
+mcp__magicui__getUIComponents()  // If using MagicUI
+```
+
+**CLI Prototyping Commands:**
+```bash
+# Quick component generation
+npx create-component [ComponentName] --typescript --test
+
+# API endpoint scaffolding
+curl -X POST http://localhost:3000/api/[endpoint] -H "Content-Type: application/json" -d '{"test": "data"}'
+
+# Database migration dry run
+npm run db:migrate:dry-run
+```
+
+**Checklist:**
+```
+□ Create feature branch with `git checkout -b feature/[name]`
+□ Use sqlite for rapid schema prototyping
+□ Use fetch to mock and test API contracts early
+□ Scaffold components using context7 and available libraries
+□ Define clear interfaces and error handling
+□ Test edge cases with curl/fetch commands
+```
+
+### Step 4: Task Breakdown & Parallel Execution Planning
+**Task Decomposition with MCP:**
+```javascript
+// Break complex features into CLI-executable tasks
+mcp__sequential-thinking__sequentialthinking({
+  thought: "Create ordered, independent tasks that can be executed in parallel where possible",
+  totalThoughts: 8
+})
+```
+
+**Parallel Task Identification:**
+```bash
+# Identify independent tasks that can run concurrently
+echo "PARALLEL TASKS:"
+echo "- Frontend component development (Task A)"
+echo "- Backend API implementation (Task B)" 
+echo "- Database schema updates (Task C)"
+echo "- Test suite creation (Task D)"
+
+echo "SEQUENTIAL DEPENDENCIES:"
+echo "- Schema (C) -> API (B) -> Frontend (A) integration"
+echo "- Components (A) -> E2E tests (D)"
+```
+
+**Task Execution Commands:**
+```bash
+# Checkpoint commit template
+git add . && git commit -m "checkpoint: [task-description] - [what-completed]"
+
+# Parallel development setup
+npm run dev &          # Development server
+npm run test:watch &   # Test watcher  
+npm run lint:watch &   # Linting watcher
+echo "All watchers started in parallel"
+```
+
+**Puppeteer Test Planning:**
+```javascript
+// Define comprehensive E2E test criteria
+mcp__puppeteer__puppeteer_navigate({ url: "http://localhost:3000/[feature]" })
+mcp__puppeteer__puppeteer_screenshot({ name: "baseline-[feature]", selector: "body" })
+
+// Performance benchmarking setup
+mcp__puppeteer__puppeteer_evaluate({
+  script: `
+    const start = performance.now();
+    // Trigger feature functionality
+    const end = performance.now();
+    return { executionTime: end - start };
+  `
+})
+```
+
+**Checklist:**
+```
+□ Use sequentialthinking to create ordered, measurable tasks
+□ Identify tasks that can be executed in parallel using Task tool
+□ Plan checkpoint commits: `git commit -m "checkpoint: [description]"`
+□ Set up parallel development environment (dev server, watchers)
+□ Define puppeteer test criteria for each major interaction
+□ Create performance benchmarks with specific metrics
+□ Mark Task tool delegation points for complex searches/analysis
+```
+
+### Step 5: Risk Assessment & Mitigation Commands
+**Automated Risk Detection:**
+```bash
+# Security vulnerability scanning
+npm audit --audit-level=moderate
+npx audit-ci --moderate &
+
+# Performance impact analysis
+npx bundle-analyzer --no-open &
+npx lighthouse-ci autorun --collect.numberOfRuns=3 &
+
+wait  # Wait for parallel scans
+```
+
+**MCP Risk Analysis:**
+```javascript
+// Code quality and security insights
+mcp__ide__getDiagnostics({ uri: "src/[target-files]" })
+
+// Performance baseline establishment
+mcp__puppeteer__puppeteer_evaluate({
+  script: `
+    const metrics = performance.getEntriesByType('navigation')[0];
+    return {
+      pageLoadTime: metrics.loadEventEnd - metrics.fetchStart,
+      domReady: metrics.domContentLoadedEventEnd,
+      firstPaint: performance.getEntriesByType('paint')[0]?.startTime
+    };
+  `
+})
+```
+
+**Mitigation Command Templates:**
+```bash
+# Rollback preparation
+git tag pre-[feature-name]-$(date +%Y%m%d)
+git push origin pre-[feature-name]-$(date +%Y%m%d)
+
+# Feature flag setup
+echo "FEATURE_[NAME]_ENABLED=false" >> .env.local
+
+# Monitoring setup
+curl -X POST [monitoring-endpoint] -d '{"metric":"[feature-name]-deploy","value":1}'
+```
+
+**Checklist:**
+```
+□ Run parallel security and performance scans
+□ Use IDE diagnostics to identify code quality risks
+□ Establish performance baselines with puppeteer
+□ Create rollback tags: `git tag pre-[feature]-$(date +%Y%m%d)`
+□ Set up feature flags for safe deployment
+□ Plan monitoring and alerting commands
+```
+
+## 🗂️ CLI-Optimized Planning Templates
+
+**Note**: Use Task tool for complex analysis steps to maximize parallel execution efficiency.
+
+### CLI-Optimized Feature Planning Template
 ```markdown
 ## Feature: [Feature Name]
 
-### Overview
+### Overview & Measurement
 - **Purpose**: [Why this feature exists]
-- **Users**: [Who will use this]
-- **Success Criteria**: [How we measure success]
+- **Users**: [Who will use this]  
+- **Success Metrics**: [Measurable outcomes with CLI validation commands]
+  ```bash
+  # Example success validation
+  curl -s http://localhost:3000/api/metrics | jq '.feature_usage'
+  npm run test:e2e -- --grep="[Feature Name]"
+  ```
 
-### Technical Approach
-- **Architecture**: [Pattern/approach chosen] - use context7 to scaffold initial structure
-- **Key Components**:
-  1. [Component 1]: [Purpose]
-  2. [Component 2]: [Purpose]
-  3. [Component 3]: [Purpose]
+### Technical Approach & CLI Setup
+- **Architecture**: [Pattern chosen]
+  ```bash
+  # Initial scaffolding commands
+  mkdir -p src/features/[feature-name]/{components,hooks,utils,tests}
+  git checkout -b feature/[feature-name]
+  ```
+- **MCP Scaffolding**:
+  ```javascript
+  mcp__context7__resolve-library-id({ libraryName: "[framework]" })
+  mcp__context7__get-library-docs({ context7CompatibleLibraryID: "/[id]", topic: "component patterns" })
+  ```
 
-### Data Requirements
-- **Models**: [List data models needed] - use deepdev for schema design
-- **Storage**: [Database/storage approach] - prototype with sqlite first
-- **APIs**: [External APIs needed] - mock with fetch for early testing
+### Data & API Strategy
+- **Schema Prototyping**:
+  ```javascript
+  mcp__sqlite__create_table({ query: "CREATE TABLE [entity] (...)" })
+  mcp__sqlite__write_query({ query: "INSERT INTO [entity] VALUES (...)" })
+  ```
+- **API Mocking**:
+  ```javascript
+  mcp__fetch__fetch({ url: "[mock-endpoint]", raw: false })
+  ```
+- **CLI Validation**:
+  ```bash
+  curl -X POST http://localhost:3000/api/[endpoint] -H "Content-Type: application/json" -d '{"test":"data"}'
+  ```
 
-### Implementation Tasks (AI-Optimized)
-**Track Progress**: Check off tasks as completed ([ ] → [x])
+### Parallel Implementation Tasks
+**Execute in parallel using Task tool where possible**
 
-Session 1:
-1. [ ] [Task 1 - Small, focused change]
-2. [ ] [Task 2 - Related small change]
-   - CHECKPOINT: Commit progress
+**Phase 1 - Foundation (Parallel Execution):**
+```bash
+# Start parallel development environment
+npm run dev &
+npm run test:watch &
+npm run lint:watch &
+```
 
-Session 2:
-3. [ ] [Task 3 - Next independent piece]
-4. [ ] [Task 4 - Related change]
-   - CHECKPOINT: Test and commit
+**Task Group A (Independent - can run in parallel):**
+1. [ ] Backend API endpoints
+   ```bash
+   Task: "Implement API routes for [feature]"
+   # Commands: touch src/api/[feature].ts && npm run test:api
+   ```
+2. [ ] Database schema & migrations
+   ```bash
+   Task: "Create and test database schema"
+   # Commands: npm run db:create-migration && npm run db:migrate:up
+   ```
 
-Session 3:
-5. [ ] [Task 5 - New component/file]
-   - CHECKPOINT: Full test cycle
-   - [ ] Clean up any temporary test files
+**Task Group B (Frontend - can run parallel to Group A):**
+3. [ ] UI Components
+   ```bash
+   Task: "Build React components for [feature]"
+   # Commands: npx create-component [Name] && npm run test:component
+   ```
+4. [ ] State management/hooks
+   ```bash
+   Task: "Implement custom hooks and state logic"
+   # Commands: touch src/hooks/use[Feature].ts && npm run test:hooks
+   ```
 
-### Testing Strategy
-- **Unit Tests**: [What to test]
-- **Integration Tests**: [Key flows] - use fetch to test API contracts
-- **E2E Tests**: [User journeys] - CRITICAL: Use puppeteer for complete validation:
-  - Navigation flows (puppeteer_navigate + puppeteer_click)
-  - Form submissions (puppeteer_fill + puppeteer_select)
-  - Interactive elements (puppeteer_hover + puppeteer_evaluate)
-  - Performance metrics (puppeteer_evaluate with performance API)
-  - Error handling (trigger errors + puppeteer_evaluate)
-  - Visual regression (puppeteer_screenshot before/after)
-- **Edge Cases**: [Special scenarios]
-- **Cleanup**: Delete any temporary test files after verification
+**Phase 2 - Integration (Sequential after Phase 1):**
+5. [ ] Frontend-Backend integration
+   ```bash
+   npm run test:integration
+   git add . && git commit -m "checkpoint: integration complete"
+   ```
+6. [ ] E2E testing with Puppeteer
+   ```javascript
+   mcp__puppeteer__puppeteer_navigate({ url: "http://localhost:3000/[feature]" })
+   mcp__puppeteer__puppeteer_click({ selector: "[data-testid='[action]']" })
+   mcp__puppeteer__puppeteer_screenshot({ name: "[feature]-complete" })
+   ```
 
-### Risks & Mitigations
-- **Risk 1**: [Description] → [Mitigation]
-- **Risk 2**: [Description] → [Mitigation]
+**Checkpoint Commands:**
+```bash
+# After each phase
+git add .
+git commit -m "checkpoint: [phase] - [what completed]"
+npm run lint && npm run typecheck && npm run test
+```
+
+### Comprehensive Testing Strategy
+**Parallel Test Execution Setup:**
+```bash
+# Run all test types in parallel
+npm run test:unit &
+npm run test:integration &
+npm run test:e2e &
+wait  # Wait for all tests to complete
+```
+
+**Unit Tests with CLI Validation:**
+- **What to test**: [Core business logic, utilities, pure functions]
+  ```bash
+  npm run test:unit -- --coverage --watch=false
+  npx jest --testPathPattern="[feature]" --coverage
+  ```
+
+**Integration Tests with MCP:**
+- **API Contract Testing**:
+  ```javascript
+  mcp__fetch__fetch({ 
+    url: "http://localhost:3000/api/[endpoint]",
+    raw: false 
+  })
+  ```
+- **Database Integration**:
+  ```javascript
+  mcp__sqlite__read_query({ query: "SELECT * FROM [table] WHERE [condition]" })
+  ```
+
+**E2E Tests - Complete Puppeteer Workflow:**
+```javascript
+// 1. Navigation & Load Testing
+mcp__puppeteer__puppeteer_navigate({ url: "http://localhost:3000/[feature]" })
+mcp__puppeteer__puppeteer_evaluate({ 
+  script: "document.readyState === 'complete'" 
+})
+
+// 2. User Interaction Testing  
+mcp__puppeteer__puppeteer_fill({ selector: "[data-testid='input']", value: "test-data" })
+mcp__puppeteer__puppeteer_click({ selector: "[data-testid='submit']" })
+mcp__puppeteer__puppeteer_hover({ selector: ".tooltip-trigger" })
+
+// 3. State Validation
+mcp__puppeteer__puppeteer_evaluate({ 
+  script: "document.querySelector('.success-message')?.textContent" 
+})
+
+// 4. Performance Benchmarking
+mcp__puppeteer__puppeteer_evaluate({
+  script: `
+    const metrics = performance.getEntriesByType('navigation')[0];
+    return {
+      pageLoadTime: metrics.loadEventEnd - metrics.fetchStart,
+      domReady: metrics.domContentLoadedEventEnd,
+      firstPaint: performance.getEntriesByType('paint')[0]?.startTime
+    };
+  `
+})
+
+// 5. Error Scenario Testing
+mcp__puppeteer__puppeteer_fill({ selector: "[data-testid='input']", value: "invalid-data" })
+mcp__puppeteer__puppeteer_click({ selector: "[data-testid='submit']" })
+mcp__puppeteer__puppeteer_evaluate({ 
+  script: "document.querySelector('.error-message')?.textContent" 
+})
+
+// 6. Visual Regression
+mcp__puppeteer__puppeteer_screenshot({ name: "[feature]-baseline", selector: "body" })
+mcp__puppeteer__puppeteer_screenshot({ name: "[feature]-after-interaction", selector: ".main-content" })
+```
+
+**Edge Case Testing Commands:**
+```bash
+# Network failure simulation
+curl -X POST http://localhost:3000/api/[endpoint] --max-time 1
+
+# Large data set testing
+for i in {1..100}; do curl -X POST http://localhost:3000/api/[endpoint] -d "{\"id\":$i}"; done
+
+# Concurrent user simulation
+ab -n 100 -c 10 http://localhost:3000/[feature]
+```
+
+**Test Cleanup Commands:**
+```bash
+# Remove temporary test files
+find . -name "*.test.tmp" -delete
+rm -rf test-output/ screenshots-temp/
+git clean -fd  # Remove untracked files
+```
+
+### Risks & CLI Mitigation Commands
+- **Performance Risk**: [Description]
+  ```bash
+  # Mitigation commands
+  npx lighthouse-ci autorun --collect.numberOfRuns=3
+  npx bundle-analyzer --no-open
+  npm run test:performance
+  ```
+- **Security Risk**: [Description]
+  ```bash
+  # Mitigation commands  
+  npm audit --audit-level=moderate
+  npx audit-ci --moderate
+  npm run test:security
+  ```
+- **Integration Risk**: [Description]
+  ```bash
+  # Mitigation commands
+  npm run test:integration
+  curl -f http://localhost:3000/health
+  npm run test:contract
+  ```
 ```
 
 ### Bug Fix Planning Template
@@ -200,14 +559,18 @@ Session 3:
 4. [ ] [Migration step]
 ```
 
-## 🔍 Planning Checklist
+## 🔍 CLI Agent Planning Checklist
 
-### AI Context Window Checklist:
-- [ ] Is each task small enough to complete in one AI session?
-- [ ] Have I planned checkpoints every 2-3 tasks?
-- [ ] Can the AI work on this without loading too many files?
-- [ ] Are tasks independent enough to work on separately?
-- [ ] Have I avoided tasks that require understanding the entire codebase?
+**Parallel Execution Priority**: Always look for opportunities to use Task tool for concurrent operations.
+
+### CLI Agent Efficiency Checklist:
+- [ ] Can this task be executed in parallel using Task tool?
+- [ ] Is each task small enough to complete with clear CLI commands?
+- [ ] Have I planned checkpoint commits: `git commit -m "checkpoint: [description]"`?
+- [ ] Can the agent work on this without loading excessive files?
+- [ ] Are tasks independent enough to delegate to sub-agents?
+- [ ] Have I identified opportunities for batched CLI operations?
+- [ ] Can complex searches be delegated using Task tool?
 
 ### Before Starting Any Task:
 - [ ] Do I understand what success looks like?
@@ -241,18 +604,42 @@ Session 3:
 
 ## 📊 Estimation Guidelines
 
-### Task Size Reference (AI-Optimized):
-- **Trivial** (< 30 min): Config changes, simple UI tweaks - Perfect for AI
-- **Small** (30 min - 1 hr): Single component changes - Ideal AI session size
-- **Medium** (1-2 hr): Multi-component features - Split into 2-3 AI sessions
-- **Large** (2-4 hr): Complex features - Must be broken down into smaller tasks
-- **XL** (> 4 hr): Too large for AI - Break down before starting
+### Task Size Reference (CLI-Optimized):
+- **Trivial** (< 30 min): Config changes, CLI script creation - Execute immediately
+  ```bash
+  # Example: Update package.json scripts
+  npm pkg set scripts.custom="[command]"
+  ```
+- **Small** (30 min - 1 hr): Single component/API endpoint - Ideal for direct execution
+  ```bash
+  # Example: Create new component
+  npx create-component [Name] --typescript
+  npm run test:component -- [Name]
+  ```
+- **Medium** (1-2 hr): Multi-component features - Use parallel Task execution
+  ```bash
+  # Example: Feature with frontend + backend
+  Task: "Implement backend API"
+  Task: "Create frontend components" 
+  Task: "Write integration tests"
+  ```
+- **Large** (2-4 hr): Complex features - Must decompose with sequential thinking
+  ```javascript
+  mcp__sequential-thinking__sequentialthinking({
+    thought: "Break down [complex feature] into independent, parallel tasks"
+  })
+  ```
+- **XL** (> 4 hr): Architectural changes - Requires multiple planning sessions
 
-### AI Session Guidelines:
-- **Optimal session**: 30-45 minutes of focused work
-- **Max session**: 1 hour before context reset needed
-- **Files per session**: 3-5 files maximum
-- **Changes per session**: 1-2 features or bug fixes
+### CLI Agent Session Guidelines:
+- **Optimal operations**: Direct CLI commands with clear outcomes
+- **Parallel execution**: Use Task tool for independent operations
+- **File handling**: Use Task tool for complex file searches/analysis
+- **Command batching**: Group related CLI operations together
+  ```bash
+  # Example: Batch related commands
+  npm run lint && npm run typecheck && npm run test && git add . && git commit -m "feature: [description]"
+  ```
 
 ### Estimation Factors:
 - **Complexity**: Algorithm difficulty, business logic
@@ -267,44 +654,200 @@ Session 3:
 - Add 40% for concurrent team changes
 - Add 50% for critical path items
 
-## 🚀 Quick Planning for Common Scenarios
+## 🚀 CLI-Optimized Quick Planning for Common Scenarios
 
 ### Adding a New API Endpoint
-1. Use deepdev to define request/response schema with full-stack awareness
-2. Check authentication requirements
-3. Plan validation rules
-4. Consider rate limiting
-5. Design error responses
-6. Use fetch to create mock endpoints and test contracts early
-7. Plan integration tests with puppeteer for E2E coverage
+**Parallel Execution Plan:**
+```bash
+# Task A: Schema definition (independent)
+Task: "Define OpenAPI schema for [endpoint]"
+# Commands: touch api/schemas/[endpoint].yml && npx swagger-codegen validate api/schemas/[endpoint].yml
+
+# Task B: Authentication check (independent)
+Task: "Verify auth middleware integration"
+# Commands: grep -r "auth" src/middleware/ && npm run test:auth
+
+# Task C: Validation setup (independent)
+Task: "Create request validation schemas"
+# Commands: npm install joi && touch src/validation/[endpoint].js
+```
+
+**Sequential Implementation:**
+```bash
+# 1. Mock and test early
+curl -X POST http://localhost:3000/api/[endpoint] -d '{"test":"data"}'
+
+# 2. MCP contract testing
+mcp__fetch__fetch({ url: "http://localhost:3000/api/[endpoint]", raw: false })
+
+# 3. Integration validation
+npm run test:api -- --grep="[endpoint]"
+
+# 4. E2E coverage with puppeteer
+mcp__puppeteer__puppeteer_navigate({ url: "http://localhost:3000/test-[endpoint]" })
+mcp__puppeteer__puppeteer_fill({ selector: "[data-testid='api-input']", value: "test-data" })
+mcp__puppeteer__puppeteer_click({ selector: "[data-testid='api-submit']" })
+```
 
 ### Creating a New UI Component
-1. Review design mockups
-2. Check context7 for existing component patterns and best practices
-3. Identify reusable elements
-4. Plan component props/API
-5. Consider responsive behavior
-6. Plan accessibility features
-7. Define test scenarios
+**Parallel Discovery & Setup:**
+```bash
+# Task A: Pattern analysis
+Task: "Find similar components in codebase"
+# Commands: find src/ -name "*.tsx" | xargs grep -l "interface.*Props" | head -10
+
+# Task B: Design system check
+Task: "Identify reusable design tokens"
+# Commands: grep -r "theme\|styled\|css-in-js" src/ --include="*.ts" --include="*.tsx"
+
+# Task C: Accessibility research
+Task: "Review ARIA patterns for component type"
+# Commands: curl -s https://www.w3.org/WAI/ARIA/apg/ | grep -i "[component-type]"
+```
+
+**MCP-Enhanced Development:**
+```javascript
+// Get latest component patterns
+mcp__context7__resolve-library-id({ libraryName: "[current-ui-library]" })
+mcp__context7__get-library-docs({ 
+  context7CompatibleLibraryID: "/[id]", 
+  topic: "[component-type] patterns",
+  tokens: 3000
+})
+
+// Get modern UI components if needed
+mcp__magicui__getUIComponents()
+mcp__magicui__getButtons()  // For button components
+mcp__magicui__getAnimations()  // For animated components
+```
+
+**CLI Development Flow:**
+```bash
+# 1. Scaffold component
+npx create-component [ComponentName] --typescript --stories --test
+
+# 2. Parallel development
+npm run storybook &  # Component development environment
+npm run test:watch -- [ComponentName] &  # Test feedback
+npm run dev &  # App integration testing
+
+# 3. Responsive testing
+npx puppeteer-cli screenshot http://localhost:6006/?path=/story/[component] --viewport 375x667  # Mobile
+npx puppeteer-cli screenshot http://localhost:6006/?path=/story/[component] --viewport 1920x1080  # Desktop
+
+# 4. Accessibility validation
+npx axe-cli http://localhost:6006/?path=/story/[component]
+```
 
 ### Database Schema Changes
-1. Use deepdev to analyze current schema and cross-layer impacts
-2. Use sqlite to prototype and test new schema locally first
-3. Plan migration strategy
-4. Consider backwards compatibility
-5. Plan data migration
-6. Define rollback procedure
-7. Plan performance testing
+**Risk-Free Prototyping with MCP:**
+```javascript
+// 1. Rapid schema prototyping
+mcp__sqlite__create_table({ 
+  query: "CREATE TABLE [new_table] (id INTEGER PRIMARY KEY, [fields]...)" 
+})
+
+// 2. Test data insertion
+mcp__sqlite__write_query({ 
+  query: "INSERT INTO [new_table] VALUES ([test_data])" 
+})
+
+// 3. Query testing
+mcp__sqlite__read_query({ 
+  query: "SELECT * FROM [new_table] JOIN [existing_table] ON [condition]" 
+})
+```
+
+**Parallel Analysis & Planning:**
+```bash
+# Task A: Impact analysis
+Task: "Analyze current schema dependencies"
+# Commands: grep -r "[table_name]" src/ --include="*.sql" --include="*.js" --include="*.ts"
+
+# Task B: Performance baseline
+Task: "Establish current query performance"
+# Commands: npm run db:benchmark && curl http://localhost:3000/api/performance-metrics
+
+# Task C: Migration strategy
+Task: "Plan zero-downtime migration approach"
+# Commands: npm run db:migration:plan -- --dry-run
+```
+
+**Safe Execution Pipeline:**
+```bash
+# 1. Create migration branch
+git checkout -b migration/[schema-change]
+
+# 2. Generate migration files
+npm run db:create-migration -- --name="[descriptive-name]"
+
+# 3. Test migration (dry run)
+npm run db:migrate:up -- --dry-run
+npm run db:migrate:down -- --dry-run
+
+# 4. Performance testing
+npm run test:db-performance -- --migration=[migration-id]
+
+# 5. Backup strategy
+pg_dump [database] > backup-pre-migration-$(date +%Y%m%d).sql
+```
 
 ### Third-party Integration
-1. Review API documentation
-2. Use fetch to test API endpoints and understand response formats
-3. Plan authentication approach
-4. Design error handling
-5. Plan retry strategies
-6. Consider rate limits
-7. Design fallback behavior
-8. Create mock endpoints with fetch for development/testing
+**Parallel API Research & Testing:**
+```bash
+# Task A: Documentation analysis
+Task: "Extract API endpoints and rate limits from documentation"
+# Commands: curl -s [api-docs-url] | grep -E "(GET|POST|PUT|DELETE|rate.*limit)"
+
+# Task B: Authentication testing
+Task: "Test auth flow and token management"
+# Commands: curl -X POST [auth-endpoint] -d '{"credentials":"test"}'
+
+# Task C: Response format analysis
+Task: "Analyze response schemas and error formats"
+# Commands: curl -s [api-endpoint] | jq '.' > sample-response.json
+```
+
+**MCP Development & Testing:**
+```javascript
+// 1. Live API testing
+mcp__fetch__fetch({ 
+  url: "[third-party-endpoint]",
+  raw: false
+})
+
+// 2. Error handling testing
+mcp__fetch__fetch({ 
+  url: "[endpoint-with-invalid-params]",
+  raw: true  // Get full error response
+})
+
+// 3. Rate limit testing
+// Execute multiple fetch calls to test limits
+for (let i = 0; i < 10; i++) {
+  mcp__fetch__fetch({ url: "[rate-limited-endpoint]" })
+}
+```
+
+**Integration Development Pipeline:**
+```bash
+# 1. Mock server setup
+npm install json-server
+echo '{"[resource]":[{"id":1,"data":"mock"}]}' > db.json
+json-server --watch db.json --port 3001 &
+
+# 2. Integration testing
+curl -X GET http://localhost:3001/[resource]
+curl -X POST http://localhost:3001/[resource] -d '{"test":"data"}'
+
+# 3. Error scenario testing
+curl -X GET http://localhost:3001/nonexistent  # 404 testing
+curl --max-time 1 http://localhost:3001/[slow-endpoint]  # Timeout testing
+
+# 4. Monitoring setup
+echo "THIRD_PARTY_API_MONITOR=true" >> .env
+npm run monitor:api-health
+```
 
 ## 💡 Best Practices
 
@@ -363,34 +906,97 @@ Session 3:
 - Collaboration: Pair planning, team reviews
 - Component Libraries: Use context7 to get latest component documentation and examples
 
-### MCP Server Usage Guidelines:
+### MCP Server Usage Guidelines for CLI Agents:
 
 #### Planning Phase MCP Server Matrix:
-| Phase | Primary MCPs | Purpose |
-|-------|--------------|---------|
-| **Ideation/Decomposition** | `sequentialthinking` | Break down fuzzy requirements into ordered checklist |
-| **Architecture & Data Design** | `deepdev` → `context7` | Design data models with full-stack awareness, scaffold structure |
-| **Prototype & Scaffolding** | `context7` + `sqlite` + `fetch` | Generate code stubs, test schemas, mock APIs |
-| **Testing & CI Strategy** | `puppeteer` + `fetch` | Plan E2E tests, define API contracts |
+| Phase | Primary MCPs | CLI Integration | Parallel Execution |
+|-------|--------------|-----------------|--------------------|
+| **Ideation/Decomposition** | `sequential-thinking` | Break down into CLI-executable tasks | Use for complex requirement analysis |
+| **Discovery & Analysis** | `context7` + Task tool | Scaffold structure, analyze patterns | Delegate searches to Task tool |
+| **Rapid Prototyping** | `context7` + `sqlite` + `fetch` | Generate stubs, test schemas, mock APIs | Run schema + API + UI tasks in parallel |
+| **Testing & Validation** | `puppeteer` + `fetch` + `ide` | Complete E2E workflows, API contracts | Execute test suites concurrently |
+| **Code Quality** | `ide` + `sequential-thinking` | Diagnostics, optimization planning | Parallel linting, type checking, testing |
 
-#### Daily Use Cases:
-- **context7**: Big refactors, generating new pages/routes, code reviews
-- **deepdev**: ORM migrations, tRPC/GraphQL handlers, data-flow debugging
-- **sequentialthinking**: Complex "how do I...?" queries, feature decomposition
-- **puppeteer**: Complete frontend validation suite:
-  - User interaction testing (click, fill, select, hover)
-  - DOM state verification (evaluate JavaScript)
-  - Performance monitoring (load times, metrics)
-  - Error scenario validation
-  - Console log monitoring
-  - Visual regression testing
-  - Accessibility validation
-- **sqlite**: Seed scripts, quick data fixtures, schema prototyping
-- **fetch**: REST endpoint testing, mocking 3rd-party APIs, contract definition
+#### Task Tool Delegation Patterns:
+```bash
+# When to use Task tool (delegate complex searches):
+Task: "Find all components using [pattern] in codebase"
+Task: "Analyze API endpoint patterns and authentication"
+Task: "Search for similar implementations of [feature]"
+Task: "Identify all files that need updates for [change]"
+
+# When to execute directly (simple, clear commands):
+npm run lint
+git status
+curl -X GET http://localhost:3000/api/health
+```
+
+#### Daily CLI Integration Patterns:
+
+**context7**: Architecture & Code Generation
+```bash
+# Use for: Big refactors, new pages/routes, component patterns
+mcp__context7__resolve-library-id({ libraryName: "[framework]" })
+# Follow with: mkdir -p [generated-structure] && npm run scaffold
+```
+
+**sequential-thinking**: Complex Problem Decomposition
+```bash
+# Use for: Multi-step features, "how do I...?" queries
+mcp__sequential-thinking__sequentialthinking({ thought: "[complex-problem]" })
+# Follow with: Task tool delegation for parallel execution
+```
+
+**puppeteer**: Complete Frontend Validation
+```javascript
+// CLI-integrated E2E workflow:
+// 1. Start dev environment
+// npm run dev & npm run test:server &
+
+// 2. Execute comprehensive testing
+mcp__puppeteer__puppeteer_navigate({ url: "http://localhost:3000" })
+mcp__puppeteer__puppeteer_click({ selector: "[data-testid='feature']" })
+mcp__puppeteer__puppeteer_evaluate({ script: "window.performance.now()" })
+mcp__puppeteer__puppeteer_screenshot({ name: "validation-complete" })
+
+// 3. Validate with CLI
+// npm run test:e2e:validate && echo "✅ E2E validation complete"
+```
+
+**sqlite**: Rapid Data Prototyping
+```bash
+# Use for: Schema design, test data, rapid iteration
+# Before: mcp__sqlite__create_table({ query: "..." })
+# After: npm run db:export-schema > prototype-schema.sql
+```
+
+**fetch**: API Development & Testing
+```bash
+# Use for: API exploration, contract testing, mocking
+# Before: mcp__fetch__fetch({ url: "[endpoint]" })
+# After: curl -X GET [endpoint] | jq '.' > api-response.json
+```
+
+**Task Tool**: Complex Analysis & Search Operations
+```bash
+# Use for operations that require multiple file reads/searches:
+Task: "Find all usage patterns of [component] across codebase"
+Task: "Analyze performance bottlenecks in [area]"
+Task: "Identify security vulnerabilities in dependencies"
+# Benefit: Parallel execution, reduced context usage
+```
 
 ### Testing Considerations
 
-**IMPORTANT**: Clean up any test files created during testing once they're no longer needed.
+**IMPORTANT**: Always clean up test artifacts and use CLI commands for verification.
+
+```bash
+# Cleanup commands to run after testing
+rm -rf test-output/ *.tmp screenshots-temp/
+git clean -fd  # Remove untracked files
+npm run test:cleanup  # Run project-specific cleanup
+echo "✅ Test cleanup complete"
+```
 
 #### Comprehensive Testing with Puppeteer MCP
 
@@ -533,4 +1139,76 @@ When planning tests, especially for AI-generated code, consider using Docker for
 
 Example: `docker run --rm -v $(pwd):/app node:18 npm test`
 
-Remember: Good planning is an investment that pays dividends in faster implementation, fewer bugs, and better code quality. The goal is to think through problems before they become expensive to fix.
+## 📋 Quick Reference: CLI Agent Command Patterns
+
+### Essential CLI Workflows
+```bash
+# Parallel development setup
+npm run dev & npm run test:watch & npm run lint:watch &
+
+# Comprehensive validation pipeline
+npm run lint && npm run typecheck && npm run test && npm run build
+
+# Checkpoint commit pattern
+git add . && git commit -m "checkpoint: [description] - [completed-items]"
+
+# Parallel testing execution
+npm run test:unit & npm run test:integration & npm run test:e2e & wait
+
+# Project health check
+npm audit --audit-level=moderate && npx depcheck && npm outdated
+```
+
+### Task Tool Delegation Triggers
+```bash
+# Use Task tool when you need:
+Task: "Search for [pattern] across entire codebase"
+Task: "Analyze dependencies and usage patterns"
+Task: "Find similar implementations of [feature]"
+Task: "Identify all files requiring updates for [change]"
+
+# Execute directly for simple operations:
+npm run [script]
+git status
+curl -X GET [endpoint]
+cat package.json | jq '.scripts'
+```
+
+### MCP Quick Commands
+```javascript
+// Problem decomposition
+mcp__sequential-thinking__sequentialthinking({ thought: "[complex-problem]", totalThoughts: 5 })
+
+// Architecture scaffolding
+mcp__context7__resolve-library-id({ libraryName: "[framework]" })
+
+// Rapid prototyping
+mcp__sqlite__create_table({ query: "CREATE TABLE [entity] (...)" })
+mcp__fetch__fetch({ url: "[api-endpoint]", raw: false })
+
+// Complete E2E validation
+mcp__puppeteer__puppeteer_navigate({ url: "http://localhost:3000" })
+mcp__puppeteer__puppeteer_click({ selector: "[data-testid='action']" })
+mcp__puppeteer__puppeteer_screenshot({ name: "validation-[step]" })
+
+// Code quality insights
+mcp__ide__getDiagnostics()
+```
+
+### Parallel Execution Patterns
+```bash
+# Phase 1: Independent tasks (run in parallel)
+Task: "Backend API development"
+Task: "Frontend component creation"
+Task: "Database schema design"
+Task: "Test suite planning"
+
+# Phase 2: Integration (sequential after Phase 1)
+npm run test:integration
+git add . && git commit -m "checkpoint: integration complete"
+
+# Phase 3: Validation (parallel testing)
+npm run test:unit & npm run test:e2e & npm run test:performance & wait
+```
+
+Remember: Efficient CLI agents maximize parallel execution, delegate complex searches to Task tool, and maintain clear checkpoint commits. Plan for measurable outcomes with specific CLI validation commands.
